@@ -15,7 +15,7 @@
 #include <limits.h>
 
 #include <QtGlobal>
-#include <QtGui/QDialog>
+#include <QDialog>
 
 const quint32 GEN_TAB    = 1U << 0;  // General tab of Settings
 const quint32 GEN_IGNORE = 1U << 1;  // ...

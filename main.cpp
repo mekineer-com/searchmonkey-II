@@ -12,7 +12,9 @@
  * [030110] shawno- debug stuff
 *******************************************************************************/
 #include <iostream>
-#include <QtGui/QApplication>
+#include <QApplication>
+#include <QCommandLineParser>
+#include <QFileInfo>
 #include "mainwindow.h"
 
 #ifndef QT_NO_CONCURRENT
@@ -33,7 +35,23 @@ int main  (int argc, char *argv[]) {
 	LEVEL[8] = 0;
 	LEVEL[9] = 0;
 	QApplication a(argc, argv);
+	QCommandLineParser parser;
+	parser.addHelpOption();
+	parser.addPositionalArgument("directory", "Folder to search", "[directory]");
+	parser.process(a);
+	const QStringList arguments = parser.positionalArguments();
+	if (arguments.size() > 1 ||
+	    (!arguments.isEmpty() && !QFileInfo(arguments.first()).isDir())) {
+		std::cerr << "Expected one existing directory.\n";
+		return 1;
+	}
 	MainWindow w;
+	w.setWindowTitle("Searchmonkey II (Qt 6)");
+	if (!arguments.isEmpty()) {
+		const QString directory = QFileInfo(arguments.first()).absoluteFilePath();
+		w.getUi()->quickDirectoryLineEdit->setText(directory);
+		w.getUi()->directoryLineEdit->setText(directory);
+	}
 	w.show();
 	return a.exec();
 }

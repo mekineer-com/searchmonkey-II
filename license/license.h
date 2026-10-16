@@ -12,7 +12,7 @@
 #ifndef LICENSE_H
 #define LICENSE_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 
 namespace Ui {
 	 class License;

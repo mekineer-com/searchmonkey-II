@@ -13,7 +13,7 @@
 #define ABOUT_H
 
 #include <QtGlobal>
-#include <QtGui/QDialog>
+#include <QDialog>
 
 namespace Ui {
 	class About;

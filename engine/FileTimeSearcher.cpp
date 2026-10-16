@@ -49,7 +49,7 @@ QDateTime FileTimeSearcher::GetTimeFrom(const Result& result, TimeType type)
 	case ModifiedTime:
 	   return result->matchedFile.lastModified();
 	case CreatedTime:
-	   return result->matchedFile.created();
+	   return (result->matchedFile.birthTime().isValid() ? result->matchedFile.birthTime() : result->matchedFile.metadataChangeTime());
 	default:
 		Q_ASSERT(0);
 		return result->matchedFile.lastModified();

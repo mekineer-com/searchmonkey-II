@@ -62,29 +62,29 @@ void Settings::createConfigFile() {
 	if (file.open(QIODevice::WriteOnly)) {
 		QTextStream out(&file);
 
-		out << "# comments on separate lines" << endl;
-		out << "#" << endl;
-		out << "# [Directories]" << endl;
-		out << "# INCLUDE=includeDirName1 includeDirName2 ..." << endl;
-		out << "# EXCLUDE=excludeDirName1 excludeDirName2 ..." << endl;
-		out << "# SEARCHALL=0 or 1" << endl;
-		out << "#" << endl;
-		out << "# [Types]" << endl;
-		out << "# type1 ext1 ext2 ext3 ..." << endl;
-		out << "# type2 ext4 ext5 ext6 ..." << endl;
-		out << "#..." << endl;
-		out << "#" << endl;
-		out << "# No slashes allowed in directory names." << endl;
-		out << "# No periods allowed in extensions." << endl;
-		out << "#" << endl;
+		out << "# comments on separate lines" << Qt::endl;
+		out << "#" << Qt::endl;
+		out << "# [Directories]" << Qt::endl;
+		out << "# INCLUDE=includeDirName1 includeDirName2 ..." << Qt::endl;
+		out << "# EXCLUDE=excludeDirName1 excludeDirName2 ..." << Qt::endl;
+		out << "# SEARCHALL=0 or 1" << Qt::endl;
+		out << "#" << Qt::endl;
+		out << "# [Types]" << Qt::endl;
+		out << "# type1 ext1 ext2 ext3 ..." << Qt::endl;
+		out << "# type2 ext4 ext5 ext6 ..." << Qt::endl;
+		out << "#..." << Qt::endl;
+		out << "#" << Qt::endl;
+		out << "# No slashes allowed in directory names." << Qt::endl;
+		out << "# No periods allowed in extensions." << Qt::endl;
+		out << "#" << Qt::endl;
 		out << "# First 2 \"records\" must be space-padded out to 240 chars, "
-				 "3rd to 80 chars." << endl;
-		out << "[Directories]" << endl;
+				 "3rd to 80 chars." << Qt::endl;
+		out << "[Directories]" << Qt::endl;
 		out << "INCLUDE=";
 		int pad = DIRNAM_RECLEN - QString("INCLUDE").size();
 		for (int i = 0; i < pad; ++i)
 			out << " ";
-		out << endl;
+		out << Qt::endl;
 
 
 		QString exclude = "EXCLUDE=";
@@ -97,15 +97,15 @@ void Settings::createConfigFile() {
 		pad = DIRNAM_RECLEN - QString(exclude).size();
 		for (int i = 0; i < pad; ++i)
 			out << " ";
-		out << endl;
+		out << Qt::endl;
 
 		out << "SEARCHALL=0";
 		pad = 80 - QString("SEARCHALL=0").size() - 1;
 		for (int i = 0; i < pad; ++i)
 			out << " ";
-		out << endl;
-		out << "# These \"records\" must be space-padded out to 80 chars." <<endl;
-		out << "[Types]" << endl;
+		out << Qt::endl;
+		out << "# These \"records\" must be space-padded out to 80 chars." <<Qt::endl;
+		out << "[Types]" << Qt::endl;
 	}
 	else {
 		boxError(QString(tr("Could not open configuration file '%1'."))

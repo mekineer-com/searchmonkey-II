@@ -72,7 +72,7 @@ void SearchResult::ResetCurrentMatchLine()
 }
 */
 
-bool LineInfo::operator ==(const LineInfo& line)
+bool LineInfo::operator ==(const LineInfo& line) const
 {
     if ((lineNo == line.lineNo)
        && (content == line.content))

@@ -14,7 +14,7 @@
 *******************************************************************************/
 #include "debug.h"
 
-#include <QtGui>
+#include <QtWidgets>
 
 #include <QEventLoop>
 

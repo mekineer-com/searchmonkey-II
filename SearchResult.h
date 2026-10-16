@@ -22,7 +22,7 @@ struct LineInfo
     int lineNo;
     QString content;
 
-	 bool operator ==(const LineInfo& line);
+	 bool operator ==(const LineInfo& line) const;
 };
 
 struct SearchResult

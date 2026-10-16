@@ -97,6 +97,9 @@ void CallEach(const CalleeContainer& container, Caller& caller, Op op)
 {
     for_each(container.begin(), container.end(), bind1st(mem_fun(op), caller));
 }
+template <typename T> bool LowerBoundFit(T value, T lowerBound);
+template <typename T> bool UpperBoundFit(T value, T upperBound);
+
 template <typename T>
 bool IsValueInRange(T value, T lowerBound, T upperBound)
 {

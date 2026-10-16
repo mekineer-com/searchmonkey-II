@@ -1,3 +1,4 @@
+#include <QRegularExpression>
 /******************************************************************************
  * NAME:       preset.cpp
  *
@@ -99,7 +100,7 @@ void Preset::init  () {
 			if (line.isEmpty()  ||  line[0] == '#')
 				continue;
 
-			QStringList parsed = line.split(QRegExp("\\s+")),
+			QStringList parsed = line.split(QRegularExpression("\\s+")),
 							value;
 
 			QString key = parsed[0];
@@ -171,10 +172,10 @@ void Preset::initComboBox  () {
 				QString s(keybuf);
 				s = s.trimmed();
 
-				QStringList sl = s.split(QRegExp("\\s+"));
+				QStringList sl = s.split(QRegularExpression("\\s+"));
 				QString t = sl[0];
 
-				qDebug() << "i.key()-" << i.key() << endl << "t-" << t;
+				qDebug() << "i.key()-" << i.key() << "\n" << "t-" << t;
 
 				if (t == i.key())
 					break;
@@ -289,7 +290,7 @@ int Preset::set  (QStringList *patterns) {
 	//
 	QString s = m_sui->moreLineEdit->text();
 	s = s.trimmed();
-	QStringList list = s.split(QRegExp("\\s+"));
+	QStringList list = s.split(QRegularExpression("\\s+"));
 	if (!s.isEmpty()) {
 		if (processMore(list) == -1) {
 			boxError("Usage: [-also type] [-only type] [-skip type] "
@@ -343,7 +344,7 @@ void Preset::setType  () {
 	QStringList value;
 	s = s.trimmed();
 	if (!s.isEmpty())
-		value = s.split(QRegExp("\\s+"));
+		value = s.split(QRegularExpression("\\s+"));
 
 	m_newsets[key] = value;  // use to update config file
 

@@ -73,7 +73,8 @@
 *******************************************************************************/
 #include "debug.h"
 
-#include <QtGui>
+#include <QtWidgets>
+#include <QStandardPaths>
 
 //#include <QTest>
 
@@ -228,7 +229,7 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->resultsTabWidget->setMovable(true);
 	ui->resultsTabWidget->setTabsClosable(true);
 
-	sizeValidator = new QRegExpValidator(QRegExp("\\d{1,9}"), this);
+	sizeValidator = new QRegularExpressionValidator(QRegularExpression("\\d{1,9}"), this);
 	ui->sizeLineEdit->setValidator(sizeValidator);
 	ui->sizeLineEdit->setMaxLength(9);
 	ui->sizeLineEdit2->setValidator(sizeValidator);
@@ -314,7 +315,7 @@ void MainWindow::hitMapReady  () {
 	if (target == -1)
 		return;
 
-	QMapIterator<QString, int> i(m_hitv[target]->futureHits);
+	QMapIterator<QString, int> i(m_hitv[target]->futureHits.result());
 
 	while (i.hasNext()) {
 		i.next();
@@ -457,17 +458,17 @@ void MainWindow::addFile  (QAbstractItemModel *model, const QString &filename,
 void MainWindow::browse  (QLineEdit *_lineEdit) {
 
 	QList<QUrl> urls;
-	urls << QUrl::fromLocalFile(QDesktopServices::storageLocation(
-										 QDesktopServices::DesktopLocation))
-		  << QUrl::fromLocalFile(QDesktopServices::storageLocation(
-										 QDesktopServices::DocumentsLocation))
-		  << QUrl::fromLocalFile(QDesktopServices::storageLocation(
-										 QDesktopServices::HomeLocation))
+	urls << QUrl::fromLocalFile(QStandardPaths::writableLocation(
+										 QStandardPaths::DesktopLocation))
+		  << QUrl::fromLocalFile(QStandardPaths::writableLocation(
+										 QStandardPaths::DocumentsLocation))
+		  << QUrl::fromLocalFile(QStandardPaths::writableLocation(
+										 QStandardPaths::HomeLocation))
 		  << QUrl::fromLocalFile(QDir::rootPath());
 
 	QFileDialog dialog(this, tr("Select Directory"),
 		!m_mruDir.isEmpty() ? m_mruDir
-		: QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation));
+		: QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 	dialog.setSidebarUrls(urls);
 	dialog.setFileMode(QFileDialog::Directory);
 	dialog.setViewMode(QFileDialog::Detail);
@@ -489,12 +490,12 @@ void MainWindow::browse  (QLineEdit *_lineEdit) {
  ******************************************************************************/
 void MainWindow::browseQuick  (QLineEdit *_lineEdit) {
 
-	qd(1) << "doc loc-" << QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation);
+	qd(1) << "doc loc-" << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 
 	QString directory = QFileDialog::getExistingDirectory(this,
 																		tr("Select Directory"),
 		!m_mruQuickDir.isEmpty() ? m_mruQuickDir
-		: QDesktopServices::storageLocation(QDesktopServices::DocumentsLocation));
+		: QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation));
 
 	if (!directory.isEmpty())
 		_lineEdit->setText(m_mruQuickDir = directory);
@@ -676,7 +677,7 @@ QStringList MainWindow::filterDateTime  (const QStringList &_files,
 		QFile file(_currentDir.absoluteFilePath(_files[i]));
 		QFileInfo fi(file);
 
-		dt = accessed ? fi.lastRead() : created ? fi.created() :fi.lastModified();
+		dt = accessed ? fi.lastRead() : created ? (fi.birthTime().isValid() ? fi.birthTime() : fi.metadataChangeTime()) :fi.lastModified();
 
 		if (after) {
 			if (dt >= dt1)
@@ -753,7 +754,7 @@ void MainWindow::_find  () throw() {
 	//
 	// Prepare find state, find, setup post-find state.
 	//
-	QTime time;
+	QElapsedTimer time;
 	time.start();
 
 	stateFind(true);
@@ -781,7 +782,7 @@ void MainWindow::_find  () throw() {
  ******************************************************************************/
 void MainWindow::find  () throw() {
 
-	auto autoSettingsReset asr(sui);  // dtor calls sui->reset()
+	autoSettingsReset asr(sui);  // dtor calls sui->reset()
 
 	bool modeAdvanced = ui->actionAdvanced->isChecked();
 	qDebug() << "modeAdvanced-" << modeAdvanced;
@@ -885,7 +886,7 @@ void MainWindow::find  () throw() {
 	//
 	// Prepare find state, find, setup post-find state.
 	//
-	QTime time;
+	QElapsedTimer time;
 	time.start();
 
 	stateFind(true);
@@ -1169,10 +1170,11 @@ void MainWindow::initLineEditCompleter  () {
 	completer->setCaseSensitivity(Qt::CaseSensitive);
 	completer->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
 
-	dirModel = new QDirModel(completer);
+	dirModel = new QFileSystemModel(completer);
 	dirModel->setNameFilters(QStringList());
 	dirModel->setFilter(QDir::AllDirs|QDir::NoDotAndDotDot);
-	dirModel->setSorting(QDir::Name|QDir::LocaleAware);
+	dirModel->setRootPath(QDir::rootPath());
+	dirModel->sort(0);
 	dirModel->setResolveSymlinks(false);
 
 	QModelIndex mi = dirModel->index(0,0);
@@ -1873,7 +1875,7 @@ void MainWindow::on_clearPushButton_clicked() {
 void MainWindow::on_contentLineEdit_textChanged(QString) {
 	refresh();
 }
-void MainWindow::on_dateTimeComboBox_currentIndexChanged(QString option) {
+void MainWindow::on_dateTimeComboBox_currentTextChanged(QString option) {
 	stateDateTime(option);
 }
 void MainWindow::on_depthMaxSpinBox_valueChanged(int max) {
@@ -1958,7 +1960,7 @@ void MainWindow::on_resultsBrowserDockWidget_visibilityChanged(bool visible) {
 void MainWindow::on_searchPushButton_clicked() {
 	on_quickSearchPushButton_clicked();
 }
-void MainWindow::on_sizeComboBox_currentIndexChanged(QString option) {
+void MainWindow::on_sizeComboBox_currentTextChanged(QString option) {
 	stateSize(option);
 }
 void MainWindow::on_sizeLineEdit_textEdited(QString) {

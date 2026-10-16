@@ -13,7 +13,7 @@
 #define MAINWINDOW_H
 
 #include <QtConcurrentRun>
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 
 #include <QDir>
 #include <QFlags>
@@ -37,10 +37,10 @@ class QCloseEvent;
 class QComboBox;
 class QCompleter;
 class QDir;
-class QDirModel;
+class QFileSystemModel;
 class QGroupBox;
 class QLabel;
-class QRegExpValidator;
+class QRegularExpressionValidator;
 class QStandardItemModel;
 class QTextEdit;
 class QTreeView;
@@ -170,7 +170,7 @@ private:
 	qint32 m_numFiles;                ///< total files found
 	qint64 m_numHits;                 ///< total matches within file
 	QCompleter *completer;            ///< filesystem completer for line edits
-	QDirModel *dirModel;              ///< basis of filesystem completer
+	QFileSystemModel *dirModel;              ///< basis of filesystem completer
 	QLabel *statusLabel;              ///< status bar message
 	QRegExp::PatternSyntax m_syntax;  ///< content match (grep) syntax
 	QStandardItemModel *m_showModel;  ///< current widget when search began
@@ -181,7 +181,7 @@ private:
 
 	SortFilterProxyModel *proxyModel; ///< allows sorting tree view by size
 
-	QRegExpValidator *sizeValidator;
+	QRegularExpressionValidator *sizeValidator;
 
 	QAction *exitAct;
 	QAction *layoutAct;
@@ -221,7 +221,7 @@ private slots:
 	void on_cancelPushButton_clicked();
 	void on_clearPushButton_clicked();
 	void on_contentLineEdit_textChanged(QString);
-	void on_dateTimeComboBox_currentIndexChanged(QString);
+	void on_dateTimeComboBox_currentTextChanged(QString);
 	void on_depthMaxSpinBox_valueChanged(int max);
 	void on_depthMinSpinBox_valueChanged(int min);
 	void on_directoryLineEdit_textChanged(QString);
@@ -243,7 +243,7 @@ private slots:
 	void on_resultsTabWidget_currentChanged(int index);
 	void on_resultsTabWidget_tabCloseRequested(int index);
 	void on_searchPushButton_clicked();
-	void on_sizeComboBox_currentIndexChanged(QString option);
+	void on_sizeComboBox_currentTextChanged(QString option);
 	void on_sizeLineEdit_textEdited(QString);
 	void on_sizeLineEdit2_textEdited(QString);
 	void on_syntaxComboBox_currentIndexChanged(int index);

@@ -35,11 +35,11 @@ void Highlighter::changeFormat(QBrush _foreground, int _fontWeight, int _length,
 void Highlighter::highlightBlock(const QString &_text) {
 	int hack = _text.indexOf(">");  // line number form is: n>
 
-	int index = _text.indexOf(m_rx);
+	int index = m_rx.indexIn(_text);
 	while (index >= 0) {
 		int length = m_rx.matchedLength();
 		if (index > hack)  // do not highlight the line number
 			setFormat(index, length, m_format);
-		index = _text.indexOf(m_rx, index + length);
+		index = m_rx.indexIn(_text, index + length);
 	}
 }

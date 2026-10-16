@@ -1,3 +1,4 @@
+#include <QRegularExpression>
 /******************************************************************************
  * NAME:       dir.cpp
  *
@@ -94,7 +95,7 @@ void Dir::init  () {
 		QString line = getLine(file);
 		line.remove("INCLUDE=");
 		line = line.trimmed();
-		m_left = line.split(QRegExp("\\s+"));
+		m_left = line.split(QRegularExpression("\\s+"));
 		if (!m_left.isEmpty()  &&  m_left[0] == "")
 			m_left.clear();  // it split on all whitespace - ""
 		qDebug() << "init(left)-" << m_left;
@@ -105,7 +106,7 @@ void Dir::init  () {
 		line = getLine(file);
 		line.remove("EXCLUDE=");
 		line = line.trimmed();
-		m_right = line.split(QRegExp("\\s+"));
+		m_right = line.split(QRegularExpression("\\s+"));
 
 		if (!m_right.isEmpty() && m_right[0] == "")
 			m_right.clear();  // it split on all whitespace - ""

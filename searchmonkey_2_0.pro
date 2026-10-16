@@ -3,6 +3,8 @@
 # -------------------------------------------------
 TARGET = searchmonkey
 TEMPLATE = app
+QT += widgets concurrent core5compat
+CONFIG += c++17
 SOURCES += main.cpp \
     mainwindow.cpp \
     sortproxy.cpp \

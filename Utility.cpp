@@ -484,7 +484,7 @@ qint64 units2bytes  (const QString &_units) {
 	sscanf(_units.toStdString().c_str(), "%f %s", &mag, buf);
 	QString s("hack");
 	qd(4) << s;
-	QString z = QString(QObject::tr("units2bytes(): mag- %1 units-'%2'")).arg(mag).arg(buf);
+	QString z = QString(QObject::tr("units2bytes(): mag- %1 units-'%2'")).arg(mag).arg(QString::fromUtf8(buf));
 	qd(4) << z;
 	//qd(4) << "units2bytes(): mag-" << mag << " units-'" << buf << "'";
 

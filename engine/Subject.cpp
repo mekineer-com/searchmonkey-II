@@ -19,7 +19,6 @@ void Subject::Register(Observer* observer)
 
 void Subject::DoRegister(Observer* observer)
 {
-    if (qFind(observers.begin(), observers.end(), observer) == observers.end())
     if (find(observers.begin(), observers.end(), observer) == observers.end())
     {
         observers.push_back(observer);
@@ -35,7 +34,7 @@ void Subject::UnRegister(Observer* observer)
 
 void Subject::DoUnRegister(Observer* observer)
 {
-    QList<Observer*>::iterator iter = qFind(observers.begin(), observers.end(), observer);
+    QList<Observer*>::iterator iter = std::find(observers.begin(), observers.end(), observer);
 
     if (iter != observers.end())
     {
