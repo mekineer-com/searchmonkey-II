@@ -36,5 +36,5 @@ layout controls remain disabled. Some legacy UI connection warnings remain;
 Ctrl+Q did not close the tested window, while ordinary window-manager close
 and Alt+F4 worked. This is a tested port, not a full audit of the old application.
 
-The original GPLv3 text is included in the application's
+The GPLv3 text is included in [COPYING](COPYING) and the application's
 [license dialog source](license/license.ui).
