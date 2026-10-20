@@ -31,6 +31,11 @@ model, retained the creation-time fallback, made a comparison const-correct,
 and adjusted old C++ template lookup. Size/date text-change handlers use the
 Qt 6 signal names. Original line endings and search algorithms are preserved.
 
+Normal input and preview text now use the active application's text palette,
+not hard-coded black. Quick/Advanced validation and light/dark preview checks
+pass; warning and match-highlight colors are unchanged. After a live theme
+change, existing text adopts the new color on input refresh/preview reselection.
+
 One optional directory argument preselects both Quick and Advanced search paths;
 invalid directories or multiple arguments are rejected. No argument still uses
 the original startup behavior.

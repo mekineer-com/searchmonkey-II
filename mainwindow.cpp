@@ -1385,38 +1385,38 @@ void MainWindow::refresh  () {
 		palette = ui->directoryLineEdit->palette();
 		palette.setColor(QPalette::Text,
 							  IsValidDir(ui->directoryLineEdit->text())?
-																	 COLOR_TEXT : COLOR_HIGHLIGHT);
+																	 normalTextColor() : COLOR_HIGHLIGHT);
 		ui->directoryLineEdit->setPalette(palette);
 
 		palette = ui->fileLineEdit->palette();
 		palette.setColor(QPalette::Text,
 							  validRx(ui->fileLineEdit->text(), QRegExp::Wildcard)?
-																	 COLOR_TEXT : COLOR_HIGHLIGHT);
+																	 normalTextColor() : COLOR_HIGHLIGHT);
 		ui->fileLineEdit->setPalette(palette);
 
 		palette = ui->contentLineEdit->palette();
 		palette.setColor(QPalette::Text,
 							  validRx(ui->contentLineEdit->text(), m_syntax)?
-																	 COLOR_TEXT : COLOR_HIGHLIGHT);
+																	 normalTextColor() : COLOR_HIGHLIGHT);
 		ui->contentLineEdit->setPalette(palette);
 	}
 	else {
 		palette = ui->quickDirectoryLineEdit->palette();
 		palette.setColor(QPalette::Text,
 							  IsValidDir(ui->quickDirectoryLineEdit->text())?
-																	 COLOR_TEXT : COLOR_HIGHLIGHT);
+																	 normalTextColor() : COLOR_HIGHLIGHT);
 		ui->quickDirectoryLineEdit->setPalette(palette);
 
 		palette = ui->quickFileLineEdit->palette();
 		palette.setColor(QPalette::Text,
 							  validRx(ui->quickFileLineEdit->text(), QRegExp::Wildcard)?
-																	 COLOR_TEXT : COLOR_HIGHLIGHT);
+																	 normalTextColor() : COLOR_HIGHLIGHT);
 		ui->quickFileLineEdit->setPalette(palette);
 
 		palette = ui->quickContentLineEdit->palette();
 		palette.setColor(QPalette::Text,
 							  validRx(ui->quickContentLineEdit->text(), m_syntax)?
-																	 COLOR_TEXT : COLOR_HIGHLIGHT);
+																	 normalTextColor() : COLOR_HIGHLIGHT);
 		ui->quickContentLineEdit->setPalette(palette);
 	}
 
@@ -1425,13 +1425,13 @@ void MainWindow::refresh  () {
 		QString s = ui->sizeLineEdit->text();
 		palette = ui->sizeLineEdit->palette();
 		palette.setColor(QPalette::Text, sizeValidator->validate(s, pos) ==
-							  QValidator::Acceptable ? COLOR_TEXT : Qt::green);
+							  QValidator::Acceptable ? normalTextColor() : Qt::green);
 		ui->sizeLineEdit->setPalette(palette);
 
 		s = ui->sizeLineEdit2->text();
 		palette = ui->sizeLineEdit2->palette();
 		palette.setColor(QPalette::Text, sizeValidator->validate(s, pos) ==
-							  QValidator::Acceptable ? COLOR_TEXT : Qt::green);
+							  QValidator::Acceptable ? normalTextColor() : Qt::green);
 		ui->sizeLineEdit2->setPalette(palette);
 	}
 

@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <string>
 
+#include <QApplication>
 #include <QComboBox>
 #include <QDateTime>
 #include <QFile>
@@ -41,7 +42,7 @@ const string SM_SP = string (1, (char) 32);
 const qint16 MAX_DIRECTORY_DEPTH = 256;
 const qint16 MAX_SEARCH_TABS = 128;
 
-const Qt::GlobalColor COLOR_TEXT = Qt::black;
+inline QColor normalTextColor() { return QApplication::palette().color(QPalette::Text); }
 const Qt::GlobalColor COLOR2_HIGHLIGHT = Qt::red;
 const QColor COLOR_HIGHLIGHT = QColor(220,0,3);    // darker, less annoying red
 const QColor COLOR_HYPERLINK = QColor(6,105,205);  // RGB hyperlink blue

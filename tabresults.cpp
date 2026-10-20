@@ -196,7 +196,7 @@ void TabResults::displayLines  (const QModelIndex &_index) {
 	lineDisplay->insertPlainText(filepath + "\n");
 
 	lineDisplay->setFontWeight(QFont::Normal);
-	lineDisplay->setTextColor(COLOR_TEXT);
+	lineDisplay->setTextColor(normalTextColor());
 
 	// The progress dialog trips this signal so shut if off for this method.
 	disconnect(smodel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
@@ -247,7 +247,7 @@ void TabResults::displayLines  (const QModelIndex &_index) {
 				lineDisplay->insertPlainText(s);
 
 				lineDisplay->setFontWeight(QFont::Normal);
-				lineDisplay->setTextColor(COLOR_TEXT);
+				lineDisplay->setTextColor(normalTextColor());
 
 				// Despite our best efforts this will highlight the line number
 				// making it stand out so changes were made in highlighter.cpp.

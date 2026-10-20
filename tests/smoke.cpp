@@ -8,6 +8,7 @@
 #include <QStandardItemModel>
 #include <QTemporaryDir>
 #include <QTextEdit>
+#include <QTextCursor>
 #include <cassert>
 #include <cstdio>
 
@@ -47,6 +48,44 @@ int main(int argc, char **argv) {
     view->selectionModel()->select(view->model()->index(0, 0),
         QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
     assert(tab->tui()->lineDisplayV->toPlainText().contains("needle"));
+    for (bool dark : {false, true}) {
+        QPalette palette = app.palette();
+        const QColor text = dark ? QColor("#eeeeee") : QColor("#000000");
+        palette.setColor(QPalette::Text, text);
+        palette.setColor(QPalette::Base, dark ? QColor("#202020") : QColor("#ffffff"));
+        app.setPalette(palette);
+        for (bool advanced : {false, true}) {
+            (advanced ? ui->actionAdvanced : ui->actionQuick)->setChecked(true);
+            auto *directory = advanced ? ui->directoryLineEdit : ui->quickDirectoryLineEdit;
+            auto *file = advanced ? ui->fileLineEdit : ui->quickFileLineEdit;
+            auto *content = advanced ? ui->contentLineEdit : ui->quickContentLineEdit;
+            directory->setText(temporary.path());
+            file->setText("*.txt");
+            content->setText("needle");
+            window.refresh();
+            for (auto *field : {directory, file, content})
+                assert(field->palette().color(QPalette::Text) == text);
+            directory->setText(temporary.path() + "/missing");
+            window.refresh();
+            assert(directory->palette().color(QPalette::Text) == COLOR_HIGHLIGHT);
+            directory->setText(temporary.path());
+            window.refresh();
+            assert(directory->palette().color(QPalette::Text) == text);
+        }
+        bool previewChecked = false;
+        for (int row = 0; row < view->model()->rowCount(); ++row) {
+            view->selectionModel()->clearSelection();
+            view->selectionModel()->select(view->model()->index(row, 0),
+                QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+            QTextCursor normal = tab->tui()->lineDisplayV->document()->find("again");
+            if (!normal.isNull()) {
+                previewChecked = true;
+                assert(normal.charFormat().foreground().color() == text);
+            }
+        }
+        assert(previewChecked);
+    }
+    ui->actionQuick->setChecked(true);
     window.resize(1200, 800);
     window.show();
     app.processEvents();
@@ -64,5 +103,5 @@ int main(int argc, char **argv) {
     assert(ui->sizeLineEdit->isEnabled());
     ui->dateTimeComboBox->setCurrentIndex(1);
     assert(ui->dateTimeEdit->isEnabled());
-    std::puts("PASS: file rows, hit counts, preview, no matches and filename-only search");
+    std::puts("PASS: light/dark input validation and preview, file rows, hit counts, no matches and filename-only search");
 }
